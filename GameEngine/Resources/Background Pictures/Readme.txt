@@ -1,0 +1,1 @@
+The current image loader only supports Bitmap files (.BMP)
