@@ -178,6 +178,7 @@
     <ClCompile Include="IRenderableObject.cpp" />
     <ClCompile Include="KeyBoardControl.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="UniverseBackground.cpp" />
     <ClCompile Include="Camera.cpp" />
   </ItemGroup>
@@ -188,6 +189,7 @@
     <ClInclude Include="imageloader.h" />
     <ClInclude Include="IRenderableObject.h" />
     <ClInclude Include="KeyBoardControl.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="UniverseBackground.h" />
     <ClInclude Include="Camera.h" />

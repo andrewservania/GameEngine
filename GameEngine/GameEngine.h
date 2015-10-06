@@ -16,9 +16,12 @@ private:
 	static std::vector<IRenderableObject*> renderableObjects;
 	static const int framesPerSecond = 60;
 
-	static std::shared_ptr<Camera> mCamera;
+
 	static std::shared_ptr<KeyBoardControl> mKeyboardControl;
 	static float aaa, bbb, ccc, solarSystemRotation, mCameraFrontDistance, mCameraRearDistance;
+	
+	static std::shared_ptr<Player> mainPlayer;
+	
 	void UpdateObjects();
 	void RenderObjects();
 
@@ -35,7 +38,6 @@ public:
 	static void GatherMouseScrollWheelInput(int button, int dir, int x, int y);
 	static void Reshape(GLint width, GLint height);
 	static void IdleFunction();
-
 	static void AddRenderableObject(IRenderableObject* object);
 
 	// Make the game engine a singleton as there will be only one

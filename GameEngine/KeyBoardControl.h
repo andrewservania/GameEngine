@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Camera.h"
-#include <windows.h>
+#include "Player.h"
+
 
 class KeyBoardControl
 {
@@ -15,12 +16,12 @@ private:
 	bool fullScreenStatus;
 public:
 
-	Camera* mCamera;
 
 	KeyBoardControl();
 	KeyBoardControl(Camera* camera);
 	~KeyBoardControl();
-	void ListenToKeys(unsigned char key, int x, int y);
+	void ListenToKeys(unsigned char key, int x, int y, Player* player);
 	void ToggleFullScreen(bool isFullScreen);
 	RECT GetScreenResolution();
+	void MoveForward(Player* player);
 };

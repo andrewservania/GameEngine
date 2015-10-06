@@ -3,8 +3,10 @@
 using namespace std;
 
 vector<IRenderableObject*> GameEngine::renderableObjects;
-std::shared_ptr<Camera> GameEngine::mCamera;
-std::shared_ptr<KeyBoardControl> GameEngine::mKeyboardControl;
+
+shared_ptr<KeyBoardControl> GameEngine::mKeyboardControl;
+shared_ptr<Player> GameEngine::mainPlayer;
+
 float GameEngine::aaa = -20.0f;
 float GameEngine::bbb = 0.0f;
 float GameEngine::ccc = 0.0f;
@@ -14,8 +16,9 @@ float GameEngine::mCameraRearDistance = 100.0f;
 
 GameEngine::GameEngine()
 {
-	mCamera = make_shared<Camera>();
-	mKeyboardControl = make_shared<KeyBoardControl>(mCamera.get());
+	mainPlayer = make_shared<Player>();
+	//mCamera = make_shared<Camera>();
+	mKeyboardControl = make_shared<KeyBoardControl>(mainPlayer->GetCamera().get());
 	mKeyboardControl->ToggleFullScreen(false);
 }
 
@@ -38,10 +41,16 @@ void GameEngine::Render()
 
 	Update();
 
-	gluLookAt(mCamera->camA, mCamera->camB, -mCamera->camC,		//eye
-		mCamera->camA, mCamera->camB, mCamera->camC,		//center
+	gluLookAt(
+		mainPlayer->GetCamera()->camA,		//eye
+		mainPlayer->GetCamera()->camB,      //eye
+		-mainPlayer->GetCamera()->camC,		//eye
+		mainPlayer->GetCamera()->camA,		//center
+		mainPlayer->GetCamera()->camB,		//center
+		mainPlayer->GetCamera()->camC,		//center
 		0, 1, 0);
-	glRotatef(mCamera->cameraViewAngle, 0.0, 10.0, 0.0);
+
+	//glRotatef(mainPlayer->GetCamera()->cameraViewAngle, 0.0, 10.0, 0.0);
 
 	glPushMatrix();
 	glLineWidth(2.0);						// Width of ALL Lines in the 3D environment
@@ -55,7 +64,7 @@ void GameEngine::Render()
 
 void GameEngine::GatherKeyboardInput(unsigned char key, int x, int y)
 {
-	mKeyboardControl->ListenToKeys(key, x, y);
+	mKeyboardControl->ListenToKeys(key, x, y, mainPlayer.get());
 }
 
 void GameEngine::GatherKeyboardArrowPadInput(int key, int x, int y)
@@ -63,23 +72,29 @@ void GameEngine::GatherKeyboardArrowPadInput(int key, int x, int y)
 	switch (key){
 	case GLUT_KEY_UP:
 		//do something here
-		mCamera->camB += 10;
+		//mainPlayer->GetCamera()->camB += 10;
+		mainPlayer->MoveForward();
 		break;
 	case GLUT_KEY_DOWN:
 		//do something here
-		mCamera->camB -= 10;
+		//mainPlayer->GetCamera()->camB -= 10;
+		mainPlayer->MoveBackwards();
 		break;
 	case GLUT_KEY_LEFT:
 		//do something here
 		//solarSystemRotation += 1.0f;
-		mCamera->cameraViewAngle += 1.0f;
-		glRotatef(mCamera->cameraViewAngle, 0.0, 10.0, 0.0);
+		//mainPlayer->GetCamera()->cameraViewAngle += 1.0f;
+		//glRotatef(mainPlayer->GetCamera()->cameraViewAngle, 0.0, 10.0, 0.0);
+
+		mainPlayer->MoveLeftSideWays();
 		break;
 	case GLUT_KEY_RIGHT:
 		//solarSystemRotation -= 1.0f;
-		mCamera->cameraViewAngle -= 1.0f;
-		glRotatef(mCamera->cameraViewAngle, 0.0, 10.0, 0.0);
+		//mainPlayer->GetCamera()->cameraViewAngle -= 1.0f;
+		//glRotatef(mainPlayer->GetCamera()->cameraViewAngle, 0.0, 10.0, 0.0);
 		//do something here
+		mainPlayer->MoveRightSideWays();
+
 		break;
 	}
 }
@@ -90,6 +105,7 @@ void GameEngine::GatherMouseClickInput(int button, int state, int x, int y)
 
 void GameEngine::GatherMouseMotionInput(int x, int y)
 {
+
 }
 
 void GameEngine::GatherMouseScrollWheelInput(int button, int dir, int x, int y)
@@ -97,12 +113,12 @@ void GameEngine::GatherMouseScrollWheelInput(int button, int dir, int x, int y)
 	if (dir > 0)
 	{
 		// Rotate Up
-		mCamera->camC -= 8.0f;					// Forward
+		mainPlayer->GetCamera()->camC -= 8.0f;					// Forward
 	}
 	else
 	{
 		// Rotate Down
-		mCamera->camC += 8.0f;					// Back up
+		mainPlayer->GetCamera()->camC += 8.0f;					// Back up
 	}
 }
 
@@ -118,96 +134,96 @@ void GameEngine::Reshape(GLint width, GLint height)
 void GameEngine::IdleFunction()
 {
 	//3D Camera Environment Limits///////////
-	if (mCamera->camA >= mCameraFrontDistance)
-		mCamera->camA = mCameraFrontDistance;
+	if (mainPlayer->GetCamera()->camA >= mCameraFrontDistance)
+		mainPlayer->GetCamera()->camA = mCameraFrontDistance;
 
-	if (mCamera->camA <= mCameraRearDistance)
-		mCamera->camA = mCameraRearDistance;
+	if (mainPlayer->GetCamera()->camA <= mCameraRearDistance)
+		mainPlayer->GetCamera()->camA = mCameraRearDistance;
 
 	//Vertical checking
-	//if (mCamera->camB >= mCameraFrontDistance)
-	//	mCamera->camB = mCameraFrontDistance;
+	//if (mainPlayer->GetCamera()->camB >= mCameraFrontDistance)
+	//	mainPlayer->GetCamera()->camB = mCameraFrontDistance;
 
-	//if (mCamera->camB <= mCameraRearDistance)
-	//	mCamera->camB = mCameraRearDistance;
+	//if (mainPlayer->GetCamera()->camB <= mCameraRearDistance)
+	//	mainPlayer->GetCamera()->camB = mCameraRearDistance;
 
-	if (mCamera->camC >= mCameraFrontDistance)
-		mCamera->camC = mCameraFrontDistance;
+	if (mainPlayer->GetCamera()->camC >= mCameraFrontDistance)
+		mainPlayer->GetCamera()->camC = mCameraFrontDistance;
 
-	if (mCamera->camC <= mCameraRearDistance)
-		mCamera->camC = mCameraRearDistance;
+	if (mainPlayer->GetCamera()->camC <= mCameraRearDistance)
+		mainPlayer->GetCamera()->camC = mCameraRearDistance;
 	///////////////////////////////////////////
-	if (mCamera->visibility == true)
+	if (mainPlayer->GetCamera()->visibility == true)
 	{
-		mCamera->colorValue = -1.0f;
+		mainPlayer->GetCamera()->colorValue = -1.0f;
 		glutPostRedisplay();
 	}
-	if (mCamera->visibility == false)
+	if (mainPlayer->GetCamera()->visibility == false)
 	{
-		mCamera->colorValue = -3.5f;
+		mainPlayer->GetCamera()->colorValue = -3.5f;
 		glutPostRedisplay();
 	}
 
-	if (mCamera->animate == true)
+	if (mainPlayer->GetCamera()->animate == true)
 	{
 		solarSystemRotation += 1.0f;
-		mCamera->cameraViewAngle -= 0.05f;
+		mainPlayer->GetCamera()->cameraViewAngle -= 0.05f;
 	}
 	//Gradual Camera Reset///////////
-	while (mCamera->resetView == true)
+	while (mainPlayer->GetCamera()->resetView == true)
 	{
-		if (mCamera->camA > 20)
+		if (mainPlayer->GetCamera()->camA > 20)
 		{
-			mCamera->camA = mCamera->camA -= 1;
+			mainPlayer->GetCamera()->camA = mainPlayer->GetCamera()->camA -= 1;
 
-			if (mCamera->camA == 20)
+			if (mainPlayer->GetCamera()->camA == 20)
 			{
-				mCamera->camA = 20;
+				mainPlayer->GetCamera()->camA = 20;
 			}
 		}
-		if (mCamera->camA < 20)
+		if (mainPlayer->GetCamera()->camA < 20)
 		{
-			mCamera->camA = mCamera->camA += 1;
+			mainPlayer->GetCamera()->camA = mainPlayer->GetCamera()->camA += 1;
 
-			if (mCamera->camA == 20)
+			if (mainPlayer->GetCamera()->camA == 20)
 			{
-				mCamera->camA = 20;
+				mainPlayer->GetCamera()->camA = 20;
 			}
 		}
 
 		////////////////////////////////////////////
-		if (mCamera->camB < -60)
+		if (mainPlayer->GetCamera()->camB < -60)
 		{
-			mCamera->camB = mCamera->camB += 1;
+			mainPlayer->GetCamera()->camB = mainPlayer->GetCamera()->camB += 1;
 
-			if (mCamera->camB == -60)
+			if (mainPlayer->GetCamera()->camB == -60)
 			{
-				mCamera->camB = -60;
+				mainPlayer->GetCamera()->camB = -60;
 			}
 		}
-		if (mCamera->camB > -60)
+		if (mainPlayer->GetCamera()->camB > -60)
 		{
-			mCamera->camB = mCamera->camB -= 1;
-			if (mCamera->camB == -60)
+			mainPlayer->GetCamera()->camB = mainPlayer->GetCamera()->camB -= 1;
+			if (mainPlayer->GetCamera()->camB == -60)
 			{
-				mCamera->camB = -60;
+				mainPlayer->GetCamera()->camB = -60;
 			}
 		}
 		////////////////////////////////////////////
-		if (mCamera->camC < -5)
+		if (mainPlayer->GetCamera()->camC < -5)
 		{
-			mCamera->camC = mCamera->camC += 1;
-			if (mCamera->camC == -5)
+			mainPlayer->GetCamera()->camC = mainPlayer->GetCamera()->camC += 1;
+			if (mainPlayer->GetCamera()->camC == -5)
 			{
-				mCamera->camC = -5;
+				mainPlayer->GetCamera()->camC = -5;
 			}
 		}
-		if (mCamera->camC > -5)
+		if (mainPlayer->GetCamera()->camC > -5)
 		{
-			mCamera->camC = mCamera->camC -= 1;
-			if (mCamera->camC == -5)
+			mainPlayer->GetCamera()->camC = mainPlayer->GetCamera()->camC -= 1;
+			if (mainPlayer->GetCamera()->camC == -5)
 			{
-				mCamera->camC = -5;
+				mainPlayer->GetCamera()->camC = -5;
 			}
 		}
 		////////////////////////////////////////////
@@ -229,12 +245,12 @@ void GameEngine::IdleFunction()
 		}
 		//////////////////////////////////////////
 
-		if (mCamera->camA == 20
-			&& mCamera->camB == -60
-			&& mCamera->camC == -5
+		if (mainPlayer->GetCamera()->camA == 20
+			&& mainPlayer->GetCamera()->camB == -60
+			&& mainPlayer->GetCamera()->camC == -5
 			&& aaa == -20)
 		{
-			mCamera->resetView = false;
+			mainPlayer->GetCamera()->resetView = false;
 		}
 	}
 
