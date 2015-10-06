@@ -21,38 +21,7 @@ using namespace std;
 shared_ptr<GameWorld> gameWorld;
 shared_ptr<GameEngine> gameEngine;
 
-//string fontFilename = "...\\OpenGL\\Resources\\Fonts\\";
-//string fontName = "FreeSerif.ttf";
 
-void drawText(string text, float x, float y, float z){
-	//glMatrixMode(GL_PROJECTION);
-	//glPushMatrix();
-	//glLoadIdentity();
-	//gluOrtho2D(0.0, mScreenWidth, 0.0, mScreenHeight);
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
-	//glLoadIdentity();
-
-	//glColor3f(0.0, 1.0, 0.0); // Green
-	//
-	////glRasterPos3f(x, y, z);
-	//glRasterPos3f(-mCamera->camA, mCamera->camB, mCamera->camC);
-	//
-	////glRasterPos2f(x, y);
-	//void * font = GLUT_BITMAP_9_BY_15;
-	//for (string::iterator i = text.begin(); i != text.end(); ++i)
-	//{
-	//	char c = *i;
-	//	glutBitmapCharacter(font, c);
-	//}
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glPopMatrix();
-
-	//glMatrixMode(GL_PROJECTION);
-	//glPopMatrix();
-}
 
 int main(int argc, char* argv[])
 {

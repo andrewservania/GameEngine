@@ -98,7 +98,7 @@ void KeyBoardControl::ToggleFullScreen(bool isFullScreen)
 		int windowWidth = mScreenWidth - 100;
 		int windowHeight = mScreenHeight - 150;
 		glutInitWindowSize(windowWidth, windowHeight);
-		glutCreateWindow("A Finite Solar System");
+		glutCreateWindow("Game Engine");
 		glutPositionWindow(mScreenWidth / 2 - windowWidth / 2,
 			mScreenHeight / 2 - windowHeight / 2);
 	}
