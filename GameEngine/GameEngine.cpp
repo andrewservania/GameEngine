@@ -3,9 +3,9 @@
 using namespace std;
 
 vector<IRenderableObject*> GameEngine::renderableObjects;
-
 shared_ptr<KeyBoardControl> GameEngine::mKeyboardControl;
 shared_ptr<Player> GameEngine::mainPlayer;
+shared_ptr<HeadsUpDisplay> GameEngine::headsUpDisplay;
 
 float GameEngine::aaa = -20.0f;
 float GameEngine::bbb = 0.0f;
@@ -20,6 +20,7 @@ GameEngine::GameEngine()
 	//mCamera = make_shared<Camera>();
 	mKeyboardControl = make_shared<KeyBoardControl>(mainPlayer->GetCamera().get());
 	mKeyboardControl->ToggleFullScreen(false);
+	headsUpDisplay = make_shared<HeadsUpDisplay>();
 }
 
 GameEngine::~GameEngine()
@@ -39,7 +40,6 @@ void GameEngine::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	Update();
 
 	gluLookAt(
 		mainPlayer->GetCamera()->camA,		//eye
@@ -50,15 +50,21 @@ void GameEngine::Render()
 		mainPlayer->GetCamera()->camC,		//center
 		0, 1, 0);
 
-	//glRotatef(mainPlayer->GetCamera()->cameraViewAngle, 0.0, 10.0, 0.0);
+	////glRotatef(mainPlayer->GetCamera()->cameraViewAngle, 0.0, 10.0, 0.0);
 
-	glPushMatrix();
-	glLineWidth(2.0);						// Width of ALL Lines in the 3D environment
-	glPopMatrix();
+	//glPushMatrix();
+	//glLineWidth(2.0);						// Width of ALL Lines in the 3D environment
+	//glPopMatrix();
 
-	for (IRenderableObject* obj : renderableObjects)	obj->Render();
+  for (IRenderableObject* obj : renderableObjects)	obj->Render();
+
+
+  headsUpDisplay->Render();
 
 	glutSwapBuffers();
+
+
+
 	Sleep(1000 / framesPerSecond);
 }
 

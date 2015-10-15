@@ -4,6 +4,7 @@
 #include "imageloader.h"
 #include "Camera.h"
 #include "KeyBoardControl.h"
+#include "HeadsUpDisplay.h"
 
 #include <vector>
 #include <memory>
@@ -12,18 +13,22 @@
 class GameEngine
 {
 private:
-	// A vector to include all objects to be rendered
-	static std::vector<IRenderableObject*> renderableObjects;
+ 	static float aaa, bbb, ccc, solarSystemRotation, mCameraFrontDistance, mCameraRearDistance;
 	static const int framesPerSecond = 60;
 
+	// A vector to include all objects to be rendered
+	static std::shared_ptr<HeadsUpDisplay> headsUpDisplay;
 
-	static std::shared_ptr<KeyBoardControl> mKeyboardControl;
-	static float aaa, bbb, ccc, solarSystemRotation, mCameraFrontDistance, mCameraRearDistance;
-	
-	static std::shared_ptr<Player> mainPlayer;
-	
 	void UpdateObjects();
 	void RenderObjects();
+
+protected:
+	static std::vector<IRenderableObject*> renderableObjects;
+	static std::shared_ptr<KeyBoardControl> mKeyboardControl;
+	static std::shared_ptr<Player> mainPlayer;
+
+
+
 
 public:
 	GameEngine();

@@ -8,6 +8,9 @@
 
 using namespace std;
 
+int KeyBoardControl::mScreenWidth;
+int KeyBoardControl::mScreenHeight;
+
 KeyBoardControl::KeyBoardControl()
 {
 }
