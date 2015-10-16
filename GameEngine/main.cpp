@@ -38,7 +38,16 @@ int main(int argc, char* argv[])
 	glutReshapeFunc(GameEngine::Reshape);
 	glutKeyboardFunc(GameEngine::GatherKeyboardInput);
 	glutMouseFunc(GameEngine::GatherMouseClickInput);
-	glutMotionFunc(GameEngine::GatherMouseMotionInput);
+	//glutMotionFunc(GameEngine::GatherMouseMotionInput);
+
+	//Description
+	//glutMotionFunc and glutPassiveMotionFunc set the motion and passive motion callback 
+	//respectively for the current window.The motion callback for a window is called 
+	//when the mouse moves within the window while one or more mouse buttons are pressed.
+	//The passive motion callback for a window is called when the mouse moves within the 
+	//window while no mouse buttons are pressed.
+
+	glutPassiveMotionFunc(GameEngine::GatherMouseMotionInput);
 	glutMouseWheelFunc(GameEngine::GatherMouseScrollWheelInput);
 	glutIdleFunc(GameEngine::IdleFunction);
 	glutSpecialFunc(GameEngine::GatherKeyboardArrowPadInput);

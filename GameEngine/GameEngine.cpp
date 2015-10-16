@@ -13,6 +13,8 @@ float GameEngine::ccc = 0.0f;
 float GameEngine::solarSystemRotation = 0.0f;
 float GameEngine::mCameraFrontDistance = 970.0f;
 float GameEngine::mCameraRearDistance = 100.0f;
+GLfloat GameEngine::mouseX = 0.0;
+GLfloat GameEngine::mouseY = 0.0;
 
 GameEngine::GameEngine()
 {
@@ -21,6 +23,8 @@ GameEngine::GameEngine()
 	mKeyboardControl = make_shared<KeyBoardControl>(mainPlayer->GetCamera().get());
 	mKeyboardControl->ToggleFullScreen(false);
 	headsUpDisplay = make_shared<HeadsUpDisplay>();
+
+	EnableTransparency();
 }
 
 GameEngine::~GameEngine()
@@ -40,6 +44,12 @@ void GameEngine::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
+	// To implement look around feature, rotate first, translate to camera values, third
+	// push and pop gluLookAt
+	glRotatef(-mouseX*0.03f, 0.0f, 0.1f, 0.0f);
+	glTranslatef(-mainPlayer->GetCamera()->camA, -mainPlayer->GetCamera()->camB, -mainPlayer->GetCamera()->camC);
+	glPushMatrix();
+
 
 	gluLookAt(
 		mainPlayer->GetCamera()->camA,		//eye
@@ -48,22 +58,29 @@ void GameEngine::Render()
 		mainPlayer->GetCamera()->camA,		//center
 		mainPlayer->GetCamera()->camB,		//center
 		mainPlayer->GetCamera()->camC,		//center
-		0, 1, 0);
+		0, -1, 0);
+	glPopMatrix();
 
-	////glRotatef(mainPlayer->GetCamera()->cameraViewAngle, 0.0, 10.0, 0.0);
 
+
+
+	//glTranslatef(0.0f, 0.0f, 0.0f);
 	//glPushMatrix();
 	//glLineWidth(2.0);						// Width of ALL Lines in the 3D environment
 	//glPopMatrix();
 
-  for (IRenderableObject* obj : renderableObjects)	obj->Render();
+
+  for (auto obj : renderableObjects)	obj->Render();
 
 
+
+  headsUpDisplay->SetCameraCoordinates("Camera coordinates: " 
+	    " camA: " + to_string(mainPlayer->GetCamera()->camA)
+	  + " camB: " + to_string(mainPlayer->GetCamera()->camB)
+	  + " camC: " + to_string(mainPlayer->GetCamera()->camC));
   headsUpDisplay->Render();
 
 	glutSwapBuffers();
-
-
 
 	Sleep(1000 / framesPerSecond);
 }
@@ -107,11 +124,12 @@ void GameEngine::GatherKeyboardArrowPadInput(int key, int x, int y)
 
 void GameEngine::GatherMouseClickInput(int button, int state, int x, int y)
 {
+	
 }
 
 void GameEngine::GatherMouseMotionInput(int x, int y)
 {
-
+	mouseX = static_cast<GLfloat>(x);
 }
 
 void GameEngine::GatherMouseScrollWheelInput(int button, int dir, int x, int y)
@@ -119,12 +137,12 @@ void GameEngine::GatherMouseScrollWheelInput(int button, int dir, int x, int y)
 	if (dir > 0)
 	{
 		// Rotate Up
-		mainPlayer->GetCamera()->camC -= 8.0f;					// Forward
+		mainPlayer->GetCamera()->camA -= 8.0f;					// Forward
 	}
 	else
 	{
 		// Rotate Down
-		mainPlayer->GetCamera()->camC += 8.0f;					// Back up
+		mainPlayer->GetCamera()->camA += 8.0f;					// Back up
 	}
 }
 
@@ -140,11 +158,11 @@ void GameEngine::Reshape(GLint width, GLint height)
 void GameEngine::IdleFunction()
 {
 	//3D Camera Environment Limits///////////
-	if (mainPlayer->GetCamera()->camA >= mCameraFrontDistance)
-		mainPlayer->GetCamera()->camA = mCameraFrontDistance;
+	//if (mainPlayer->GetCamera()->camA >= mCameraFrontDistance)
+	//	mainPlayer->GetCamera()->camA = mCameraFrontDistance;
 
-	if (mainPlayer->GetCamera()->camA <= mCameraRearDistance)
-		mainPlayer->GetCamera()->camA = mCameraRearDistance;
+	//if (mainPlayer->GetCamera()->camA <= mCameraRearDistance)
+	//	mainPlayer->GetCamera()->camA = mCameraRearDistance;
 
 	//Vertical checking
 	//if (mainPlayer->GetCamera()->camB >= mCameraFrontDistance)
@@ -153,11 +171,11 @@ void GameEngine::IdleFunction()
 	//if (mainPlayer->GetCamera()->camB <= mCameraRearDistance)
 	//	mainPlayer->GetCamera()->camB = mCameraRearDistance;
 
-	if (mainPlayer->GetCamera()->camC >= mCameraFrontDistance)
-		mainPlayer->GetCamera()->camC = mCameraFrontDistance;
+	//if (mainPlayer->GetCamera()->camC >= mCameraFrontDistance)
+	//	mainPlayer->GetCamera()->camC = mCameraFrontDistance;
 
-	if (mainPlayer->GetCamera()->camC <= mCameraRearDistance)
-		mainPlayer->GetCamera()->camC = mCameraRearDistance;
+	//if (mainPlayer->GetCamera()->camC <= mCameraRearDistance)
+	//	mainPlayer->GetCamera()->camC = mCameraRearDistance;
 	///////////////////////////////////////////
 	if (mainPlayer->GetCamera()->visibility == true)
 	{
@@ -268,4 +286,11 @@ void GameEngine::IdleFunction()
 void GameEngine::AddRenderableObject(IRenderableObject* object)
 {
 	renderableObjects.push_back(object);
+}
+
+void GameEngine::EnableTransparency()
+{
+	// Enable transparency objects through the use of GLColor4f(0,0,0,0.5);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

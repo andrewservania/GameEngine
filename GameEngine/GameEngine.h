@@ -15,6 +15,7 @@ class GameEngine
 private:
  	static float aaa, bbb, ccc, solarSystemRotation, mCameraFrontDistance, mCameraRearDistance;
 	static const int framesPerSecond = 60;
+	static GLfloat mouseX, mouseY;
 
 	// A vector to include all objects to be rendered
 	static std::shared_ptr<HeadsUpDisplay> headsUpDisplay;
@@ -44,6 +45,7 @@ public:
 	static void Reshape(GLint width, GLint height);
 	static void IdleFunction();
 	static void AddRenderableObject(IRenderableObject* object);
+	static void EnableTransparency();
 
 	// Make the game engine a singleton as there will be only one
 };

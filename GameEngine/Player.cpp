@@ -35,26 +35,26 @@ void Player::Render()
 
 void Player::MoveForward()
 {
-	camera->camC -= 8.0f;					
+	camera->camB -= 8.0f;					
 
 }
 
 
 void Player::MoveBackwards()
 {
-	camera->camC += 8.0f;
+	camera->camB += 8.0f;
 }
 
 void Player::MoveLeftSideWays()
 {
-	camera->camA += 8.0f;
+	camera->camC += 8.0f;
 }
 
 void Player::MoveRightSideWays()
 {
 
 
-	camera->camA -= 8.0f;
+	camera->camC -= 8.0f;
 }
 
 // Using parabola-like values to simulate a jump
