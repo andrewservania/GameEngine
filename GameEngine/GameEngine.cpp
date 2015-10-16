@@ -46,7 +46,8 @@ void GameEngine::Render()
 
 	// To implement look around feature, rotate first, translate to camera values, third
 	// push and pop gluLookAt
-	glRotatef(-mouseX*0.03f, 0.0f, 0.1f, 0.0f);
+	glRotatef(-mouseX*0.05f+10, 0.0f, 0.1f, 0.0f);
+	glRotatef(mouseY*0.05f-15, 0.1f, 0.f, 0.f);
 	glTranslatef(-mainPlayer->GetCamera()->camA, -mainPlayer->GetCamera()->camB, -mainPlayer->GetCamera()->camC);
 	glPushMatrix();
 
@@ -130,6 +131,7 @@ void GameEngine::GatherMouseClickInput(int button, int state, int x, int y)
 void GameEngine::GatherMouseMotionInput(int x, int y)
 {
 	mouseX = static_cast<GLfloat>(x);
+	mouseY = static_cast<GLfloat>(y);
 }
 
 void GameEngine::GatherMouseScrollWheelInput(int button, int dir, int x, int y)
