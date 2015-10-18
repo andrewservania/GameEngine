@@ -6,9 +6,9 @@ Camera::Camera()
 	// camB = -120;
 	// camC = -60;
 
-	camA = 400;
-	camB = 100;
-	camC = 500;
+	camA = 20;
+	camB = 120;
+	camC = 60;
 
 	cameraViewAngle = -10.0f;
 	universeLoaded = false;

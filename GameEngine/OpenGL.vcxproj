@@ -92,7 +92,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\GameEngine\freeglut\include\GL;$(SolutionDir)\GameEngine\glut-3.7.6-bin;$(SolutionDir)\GameEngine\gl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\GameEngine\freeglut\include\GL;$(SolutionDir)\GameEngine\glut-3.7.6-bin;$(SolutionDir)\GameEngine\gl;$(SolutionDir)\GameEngine\glm</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
@@ -136,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\GameEngine\freeglut\include\GL;$(SolutionDir)\GameEngine\glut-3.7.6-bin;$(SolutionDir)\GameEngine\gl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\GameEngine\freeglut\include\GL;$(SolutionDir)\GameEngine\glut-3.7.6-bin;$(SolutionDir)\GameEngine\gl;$(SolutionDir)\GameEngine\glm</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Axes.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="HeadsUpDisplay.cpp" />
@@ -179,18 +180,21 @@
     <ClCompile Include="IRenderableObject.cpp" />
     <ClCompile Include="KeyBoardControl.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="UniverseBackground.cpp" />
     <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Axes.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="HeadsUpDisplay.h" />
     <ClInclude Include="imageloader.h" />
     <ClInclude Include="IRenderableObject.h" />
     <ClInclude Include="KeyBoardControl.h" />
+    <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="UniverseBackground.h" />

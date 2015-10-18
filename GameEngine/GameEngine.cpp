@@ -7,7 +7,7 @@ shared_ptr<KeyBoardControl> GameEngine::mKeyboardControl;
 shared_ptr<Player> GameEngine::mainPlayer;
 shared_ptr<HeadsUpDisplay> GameEngine::headsUpDisplay;
 
-float GameEngine::aaa = -20.0f;
+float GameEngine::aaa = 0.0f;
 float GameEngine::bbb = 0.0f;
 float GameEngine::ccc = 0.0f;
 float GameEngine::solarSystemRotation = 0.0f;
@@ -44,14 +44,28 @@ void GameEngine::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
+
+
+
+
+
 	// To implement look around feature, rotate first, translate to camera values, third
-	// push and pop gluLookAt
-	glRotatef(-mouseX*0.05f+10, 0.0f, 0.1f, 0.0f);
-	glRotatef(mouseY*0.05f-15, 0.1f, 0.f, 0.f);
+	// push and pop gluLookAt	
+
+	glRotatef(mouseX*0.15f+10, 0.0f, 1.0f, 0.0f);
+
+
+
+
+
+	//glRotatef(mouseY*0.15f - 15, 1.0f, 0.0f, 0.0f);
 	glTranslatef(-mainPlayer->GetCamera()->camA, -mainPlayer->GetCamera()->camB, -mainPlayer->GetCamera()->camC);
+
+	//glPushMatrix();
+	//glTranslatef(0.0f, 0.0f, 0.0f);
+	//glPopMatrix();
+
 	glPushMatrix();
-
-
 	gluLookAt(
 		mainPlayer->GetCamera()->camA,		//eye
 		mainPlayer->GetCamera()->camB,      //eye
@@ -70,10 +84,17 @@ void GameEngine::Render()
 	//glLineWidth(2.0);						// Width of ALL Lines in the 3D environment
 	//glPopMatrix();
 
-
-  for (auto obj : renderableObjects)	obj->Render();
-
-
+	glPushMatrix();
+	for (auto obj : renderableObjects){
+		obj->Render();
+		//obj->Render3DModel();
+	}
+	
+   glPopMatrix();
+  
+   //glPushMatrix();
+   //glRotatef(mouseY*0.15f - 15, 1.0f, 0.0f, 0.0f);
+   //glPopMatrix();
 
   headsUpDisplay->SetCameraCoordinates("Camera coordinates: " 
 	    " camA: " + to_string(mainPlayer->GetCamera()->camA)

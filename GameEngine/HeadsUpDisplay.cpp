@@ -111,6 +111,7 @@ void HeadsUpDisplay::RenderWorldCoordinates(){
 }
 void HeadsUpDisplay::RenderCameraCoordinates()
 {
+	
 	glColor3f(0.0f, 1.0f, 0.0f);
 	glRasterPos2f(100.0f, static_cast<GLfloat>(KeyBoardControl::mScreenHeight - 210));
 	//glRasterPos2f(x, y);

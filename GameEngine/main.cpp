@@ -15,7 +15,7 @@
 #include <iostream>
 #include <memory>
 #include <windows.h>
-
+#include <time.h>
 using namespace std;
 
 shared_ptr<GameWorld> gameWorld;
@@ -25,6 +25,9 @@ shared_ptr<GameEngine> gameEngine;
 
 int main(int argc, char* argv[])
 {
+	// seed random
+	srand(static_cast<unsigned int>(time(nullptr)));
+
 	cout << "Loading...\n";
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
@@ -33,7 +36,7 @@ int main(int argc, char* argv[])
 	gameWorld = make_shared<GameWorld>();
 
 	//mAxes = make_unique<Axes>();
-
+	
 	glutDisplayFunc(GameEngine::Render);
 	glutReshapeFunc(GameEngine::Reshape);
 	glutKeyboardFunc(GameEngine::GatherKeyboardInput);

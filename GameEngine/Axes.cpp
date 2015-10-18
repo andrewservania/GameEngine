@@ -46,6 +46,7 @@ bool Axes::RenderZAxis()
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, mLengthOfAxes);
 	glEnd();
+	
 
 	mIsZBeingRendered = false;
 	return mIsZBeingRendered;
@@ -71,6 +72,8 @@ bool Axes::RenderXAxisGrid()
 			drawText(to_string(val), val, 0, 0);
 		}
 	}
+	glFlush();
+
 	return mIsXGridBeingRendered;
 }
 
@@ -96,6 +99,8 @@ bool Axes::RenderYAxisGrid()
 			drawText(to_string(val), 0, val, 0);
 		}
 	}
+	glFlush();
+
 	return mIsYGridBeingRendered;
 }
 
@@ -122,6 +127,7 @@ bool Axes::RenderZAxisGrid()
 			drawText(to_string(val), 0, 0, val);
 		}
 	}
+	glFlush();
 
 	return mIsZGridBeingRendered;
 }

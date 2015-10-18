@@ -21,7 +21,7 @@ private:
 	void * basicTextFont;
 	// Wow, void pointers? Seriously?! 
 	// I know.. remnants of C crawled and stayed in C++. 
-	// As late Robin Williams Jumanji would quote: "What year is this?!"
+	// As late Robin Williams in Jumanji would quote: "What year is this?!"
 
 	//Camera Coordinates Parameters
 	std::string cameraCoordinates;
